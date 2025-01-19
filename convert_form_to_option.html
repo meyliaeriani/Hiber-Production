@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Form Answer Converter</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #F1E9E6;
+      margin: 0;
+      padding: 0;
+      color: #5D4B47;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background-color: #FEE3E5;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #C87377;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #5D4B47;
+      margin-bottom: 20px;
+    }
+    .instructions {
+      background-color: #F4DAB5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    input[type="file"] {
+      display: block;
+      margin: 20px auto;
+      background-color: #E1CDC6;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="file"]:hover {
+      background-color: #C49488;
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 15px;
+      background-color: #DD8A62;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #A77370;
+    }
+    #progress {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 16px;
+      color: #C87377;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #5D4B47;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Google Form Answer Converter</h1>
+
+    <div class="instructions">
+      <p><strong>Petunjuk Penggunaan:</strong></p>
+      <ul style="margin-left: 20px;">
+        <li>Unggah file Excel hasil Google Form Anda menggunakan tombol <em>Choose File</em>.</li>
+        <li>File harus memiliki format berikut:
+          <ul style="margin-left: 20px; list-style-type: circle;">
+            <li>Kolom pertama: Nama peserta didik.</li>
+            <li>Kolom berikutnya: Jawaban dari peserta didik.</li>
+          </ul>
+        </li>
+        <li>Tekan tombol <strong>Convert and Download</strong> untuk memulai proses konversi.</li>
+        <li>Jawaban akan diubah menjadi A, B, C, D, atau E berdasarkan pengelompokan jawaban per soal.</li>
+        <li>File hasil konversi akan diunduh secara otomatis.</li>
+      </ul>
+    </div>
+
+    <input type="file" id="fileInput" accept=".xlsx,.xls">
+    <button onclick="processFile()">Convert and Download</button>
+    <div id="progress"></div>
+    <footer>Powered by Hiber Production</footer>
+  </div>
+
+  <script>
+    async function processFile() {
+      const fileInput = document.getElementById('fileInput');
+      const progress = document.getElementById('progress');
+
+      if (fileInput.files.length === 0) {
+        alert('Silakan pilih file terlebih dahulu!');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = async (e) => {
+        try {
+          progress.textContent = "Memproses file, harap tunggu...";
+
+          const startTime = performance.now();
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+
+          // Ambil sheet pertama
+          const firstSheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[firstSheetName];
+
+          // Konversi sheet ke JSON
+          const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+          // Validasi format file
+          if (jsonData.length === 0 || jsonData[0].length < 2) {
+            throw new Error('Format file tidak sesuai. Pastikan file memiliki header dan data jawaban.');
+          }
+
+          const headers = jsonData[0];
+          const rows = jsonData.slice(1);
+          const columnCount = headers.length;
+
+          // Inisialisasi mapping jawaban unik untuk setiap kolom (soal)
+          const columnAnswerMap = {};
+
+          for (let col = 1; col < columnCount; col++) {
+            const uniqueAnswers = [...new Set(rows.map(row => row[col]).filter(answer => answer))].sort();
+            if (uniqueAnswers.length > 5) {
+              throw new Error(`Terlalu banyak jawaban unik untuk kolom ${headers[col]}. Maksimal 5 (A, B, C, D, E).`);
+            }
+
+            columnAnswerMap[col] = {};
+            uniqueAnswers.forEach((answer, index) => {
+              columnAnswerMap[col][answer] = String.fromCharCode(65 + index);
+            });
+          }
+
+          const convertedData = rows.map(row => {
+            return row.map((cell, index) => {
+              if (index === 0) return cell;
+              if (index >= 1 && columnAnswerMap[index]) {
+                return columnAnswerMap[index][cell] || cell;
+              }
+              return cell;
+            });
+          });
+
+          convertedData.unshift(headers);
+
+          const newSheet = XLSX.utils.aoa_to_sheet(convertedData);
+          const newWorkbook = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Hasil');
+
+          const filename = 'Hasil_Convert.xlsx';
+          XLSX.writeFile(newWorkbook, filename);
+
+          const endTime = performance.now();
+          const elapsedTime = ((endTime - startTime) / 1000).toFixed(2);
+
+          progress.textContent = `File selesai dikonversi dalam ${elapsedTime} detik. File akan otomatis diunduh.`;
+          alert('File berhasil diunduh: ' + filename);
+
+        } catch (error) {
+          progress.textContent = '';
+          alert('Error: ' + error.message);
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+  </script>
+</body>
+</html>

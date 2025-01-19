@@ -1,0 +1,115 @@
+Tentu, saya bisa membantu membuatkan kode HTML untuk header blog WordPress Anda dengan tampilan modern, elegan, dan kombinasi warna pastel seperti yang Anda inginkan. Karena WordPress menggunakan PHP untuk templatnya, kita akan membuat kode HTML dasar yang dapat diintegrasikan ke dalam tema WordPress Anda.
+
+Berikut adalah contoh kode HTML, CSS, dan sedikit JavaScript untuk menciptakan tampilan header seperti tab pada browser dengan warna pastel yang Anda berikan:
+
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Blog</title>
+    <style>
+        /* Gaya Dasar */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #F1E9E6; /* Warna latar belakang header */
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+        }
+
+        .nav-tabs {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; /* Menggunakan flexbox untuk tata letak horizontal */
+            overflow-x: auto; /* Membuat scroll horizontal jika tab terlalu banyak */
+        }
+
+        .nav-tabs li {
+            margin-right: 10px;
+        }
+
+        .nav-tabs a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #C49488; /* Warna teks tab */
+            background-color: #F4DAB5; /* Warna latar belakang tab */
+            border-radius: 5px 5px 0 0; /* Membuat sudut melengkung di atas */
+            border: 1px solid #F2B892;
+            transition: background-color 0.3s, color 0.3s; /* Efek transisi hover */
+            white-space: nowrap; /* Mencegah teks tab agar tidak wrap */
+        }
+
+        .nav-tabs a:hover {
+            background-color: #F2B892; /* Warna latar belakang tab saat dihover */
+            color: #DD8A62; /* Warna teks tab saat dihover */
+        }
+
+        .nav-tabs a.active {
+          background-color: #E1CDC6;
+          border-bottom: 2px solid #E1CDC6;
+          color: #DD8A62;
+        }
+
+        /* Gaya untuk konten di bawah header */
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav>
+            <ul class="nav-tabs">
+                <li><a href="#" class="active">Beranda</a></li>
+                <li><a href="#">Kategori 1</a></li>
+                <li><a href="#">Kategori 2</a></li>
+                <li><a href="#">Kategori 3</a></li>
+                <li><a href="#">Kategori 4</a></li>
+                <li><a href="#">Kategori 5</a></li>
+                <li><a href="#">Tentang Kami</a></li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1>Konten Blog</h1>
+        <p>Ini adalah contoh konten blog Anda.</p>
+    </div>
+
+</body>
+</html>
+```
+
+**Penjelasan Kode:**
+
+*   **Warna:** Kode ini menggunakan warna-warna pastel yang Anda berikan (#E1CDC6, #DD8A62, #C49488, #F2B892, #F4DAB5, #F1E9E6) untuk latar belakang, teks, dan _hover state_ pada tab.
+*   **Flexbox:** Menggunakan `display: flex` pada `ul.nav-tabs` untuk menata tab secara horizontal.
+*   **Overflow:** `overflow-x: auto` ditambahkan agar _tab_ bisa di-_scroll_ secara horizontal jika terlalu banyak.
+*   **Hover Effect:** Efek _hover_ sederhana ditambahkan untuk memberikan _feedback_ visual kepada pengguna.
+*   **Active Class:** Class `active` ditambahkan ke _link_ yang aktif, yang bisa Anda atur dengan JavaScript atau di _backend_ WordPress.
+*   **Rounded Corners:** Sudut melengkung ditambahkan pada bagian atas tab.
+*   **White-space: nowrap:** Mencegah teks di dalam _tab_ agar tidak turun ke baris baru.
+
+**Implementasi di WordPress:**
+
+1.  **Child Theme:** Sangat disarankan untuk membuat _child theme_ terlebih dahulu agar perubahan tidak hilang saat tema utama diupdate.
+2.  **Header.php:** Edit file `header.php` di _child theme_ Anda.
+3.  **Integrasi Kode:** Hapus kode header yang ada dan ganti dengan kode HTML di atas. Sesuaikan _link_ `href` dengan URL kategori atau halaman Anda.
+4.  **Styling:** Tambahkan CSS di atas ke file `style.css` di _child theme_ Anda.
+
+**Catatan Penting:**
+
+*   Kode ini adalah dasar HTML dan CSS. Anda mungkin perlu menyesuaikannya lebih lanjut agar sesuai dengan tema WordPress Anda.
+*   Untuk fungsionalitas _tab_ yang sebenarnya (misalnya, menampilkan konten yang berbeda saat tab diklik), Anda akan memerlukan JavaScript atau penanganan di _backend_ WordPress.
+*   Untuk integrasi yang lebih dinamis dengan WordPress (misalnya, menampilkan daftar kategori secara otomatis), Anda perlu menggunakan fungsi-fungsi WordPress di dalam file `header.php`.
+
+Semoga kode ini bermanfaat! Jika ada pertanyaan lebih lanjut, jangan ragu untuk bertanya.

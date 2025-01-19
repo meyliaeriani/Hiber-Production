@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Belajar</title>
+    <style>
+        .header {
+  	  background-color: #f0f0f0;
+ 	   padding: 10px 20px;
+	    display: flex;
+	    align-items: center; /* Tetap penting untuk pemusatan vertikal awal */
+	}
+
+	.logo {
+    	max-height: 50px;
+ 	margin-right: 10px;
+	}
+
+	.blog-title {
+	    font-size: 1.2em;
+    	font-weight: bold;
+    	line-height: 50px; /* Tinggi garis sama dengan tinggi logo */
+}
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <img src="logo.jpg" alt="Logo Halaman Belajar" class="logo">
+        <span class="blog-title">Halaman Belajar</span>
+    </header>
+</html>
+  
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Blog</title>
+    <style>
+        /* Gaya Dasar */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background-color: #F1E9E6; /* Warna latar belakang header */
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+        }
+
+        .nav-tabs {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; /* Menggunakan flexbox untuk tata letak horizontal */
+            overflow-x: auto; /* Membuat scroll horizontal jika tab terlalu banyak */
+        }
+
+        .nav-tabs li {
+            margin-right: 10px;
+        }
+
+        .nav-tabs a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #C49488; /* Warna teks tab */
+            background-color: #F4DAB5; /* Warna latar belakang tab */
+            border-radius: 5px 5px 0 0; /* Membuat sudut melengkung di atas */
+            border: 1px solid #F2B892;
+            transition: background-color 0.3s, color 0.3s; /* Efek transisi hover */
+            white-space: nowrap; /* Mencegah teks tab agar tidak wrap */
+        }
+
+        .nav-tabs a:hover {
+            background-color: #F2B892; /* Warna latar belakang tab saat dihover */
+            color: #DD8A62; /* Warna teks tab saat dihover */
+        }
+
+        .nav-tabs a.active {
+          background-color: #E1CDC6;
+          border-bottom: 2px solid #E1CDC6;
+          color: #DD8A62;
+        }
+
+        /* Gaya untuk konten di bawah header */
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav>
+            <ul class="nav-tabs">
+                <li><a href="index.htm">Beranda</a></li>
+		<li><a href="kelas-x.htm">Kelas X</a></li>
+		<li><a href="kelas-xi.htm">Kelas XI</a></li>
+		<li><a href="kelas-xii.htm">Kelas XII</a></li>
+		<li><a href="soal.htm" class="active">Soal</a></li>
+		<li><a href="cerita.htm">Cerita</a></li>
+		<li><a href="tentang-kami.htm">Tentang Kami</a></li>
+		<li><a href="kontak.htm">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1>Konten Blog</h1>
+        <p>Ini adalah contoh konten blog Anda.</p>
+    </div>
+
+</body>
+</html>
